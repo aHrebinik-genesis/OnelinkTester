@@ -22,6 +22,15 @@
       max-width: 600px;
     }
 
+    .button-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 20px;
+    }
+
     input {
       flex: 1;
       padding: 12px;
@@ -61,10 +70,12 @@
     <button class="clear-input" id="btn-clear-input">Clear</button>
   </div>
 
-  <button class="copy" id="btn-copy">Copy JWT</button>
-  <button class="dev" id="btn-dev">Dev OneLink</button>
-  <button class="prod" id="btn-prod">Prod OneLink</button>
-  <button class="clear-clipboard" id="btn-clear-clipboard">Clear Clipboard</button>
+  <div class="button-column">
+    <button class="copy" id="btn-copy">Copy JWT</button>
+    <button class="dev" id="btn-dev">Dev OneLink</button>
+    <button class="prod" id="btn-prod">Prod OneLink</button>
+    <button class="clear-clipboard" id="btn-clear-clipboard">Clear Clipboard</button>
+  </div>
 
   <div id="status"></div>
 
