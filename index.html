@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Copy JWT & Redirect</title>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
+    button { font-size: 18px; padding: 14px 24px; margin: 10px; border: none; border-radius: 8px; color: white; }
+    .dev { background-color: #28a745; }
+    .prod { background-color: #007bff; }
+    #status { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🚀 Тест JWT Copy + Redirect</h1>
+  <p>Выбери окружение:</p>
+  <button class="dev" id="btn-dev">Dev OneLink</button>
+  <button class="prod" id="btn-prod">Prod OneLink</button>
+  <div id="status"></div>
+
+  <script>
+    const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.abc.def"; // <-- Вставь свой JWT
+
+    const oneLinkDev = "https://yourapp.onelink.me/dev";   // <-- Dev OneLink
+    const oneLinkProd = "https://yourapp.onelink.me/prod"; // <-- Prod OneLink
+
+    const status = document.getElementById("status");
+
+    async function handleClick(link) {
+      try {
+        await navigator.clipboard.writeText(jwt);
+        status.textContent = "✅ JWT скопирован, редирект...";
+        setTimeout(() => window.location.href = link, 800);
+      } catch (e) {
+        status.textContent = "❌ Ошибка копирования";
+        console.error(e);
+      }
+    }
+
+    document.getElementById("btn-dev").onclick = () => handleClick(oneLinkDev);
+    document.getElementById("btn-prod").onclick = () => handleClick(oneLinkProd);
+  </script>
+</body>
+</html>
