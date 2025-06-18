@@ -1,44 +1,96 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Copy JWT & Redirect</title>
   <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; }
-    button { font-size: 18px; padding: 14px 24px; margin: 10px; border: none; border-radius: 8px; color: white; }
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    input {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      font-size: 18px;
+      padding: 14px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+    .copy { background-color: #6c757d; }
     .dev { background-color: #28a745; }
     .prod { background-color: #007bff; }
-    #status { margin-top: 20px; }
+    #status { margin-top: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>🚀 Тест JWT Copy + Redirect</h1>
-  <p>Выбери окружение:</p>
+  <h1>🚀 JWT Copy & Redirect</h1>
+  <p>Paste or enter your JWT token:</p>
+  <input id="jwt-input" type="text" placeholder="Paste your JWT here" />
+
+  <button class="copy" id="btn-copy">Copy JWT</button>
   <button class="dev" id="btn-dev">Dev OneLink</button>
   <button class="prod" id="btn-prod">Prod OneLink</button>
+
   <div id="status"></div>
 
   <script>
-    const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.abc.def"; // <-- Вставь свой JWT
-
-    const oneLinkDev = "https://yourapp.onelink.me/dev";   // <-- Dev OneLink
-    const oneLinkProd = "https://yourapp.onelink.me/prod"; // <-- Prod OneLink
+    const oneLinkDev = "https://yourapp.onelink.me/dev";   // ← replace with your dev link
+    const oneLinkProd = "https://yourapp.onelink.me/prod"; // ← replace with your prod link
 
     const status = document.getElementById("status");
+    const jwtInput = document.getElementById("jwt-input");
 
-    async function handleClick(link) {
+    async function copyJwtOnly() {
+      const jwt = jwtInput.value.trim();
+      if (!jwt) {
+        status.textContent = "❗ Please enter JWT before copying";
+        return;
+      }
+
       try {
         await navigator.clipboard.writeText(jwt);
-        status.textContent = "✅ JWT скопирован, редирект...";
-        setTimeout(() => window.location.href = link, 800);
+        status.textContent = "✅ JWT copied to clipboard";
       } catch (e) {
-        status.textContent = "❌ Ошибка копирования";
+        status.textContent = "❌ Copying failed";
         console.error(e);
       }
     }
 
-    document.getElementById("btn-dev").onclick = () => handleClick(oneLinkDev);
-    document.getElementById("btn-prod").onclick = () => handleClick(oneLinkProd);
+    async function copyJwtAndRedirect(link) {
+      const jwt = jwtInput.value.trim();
+      if (!jwt) {
+        status.textContent = "❗ Please enter JWT before redirecting";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(jwt);
+        status.textContent = "✅ JWT copied, redirecting...";
+        setTimeout(() => window.location.href = link, 800);
+      } catch (e) {
+        status.textContent = "❌ Copying to clipboard failed";
+        console.error(e);
+      }
+    }
+
+    document.getElementById("btn-copy").onclick = () => copyJwtOnly();
+    document.getElementById("btn-dev").onclick = () => copyJwtAndRedirect(oneLinkDev);
+    document.getElementById("btn-prod").onclick = () => copyJwtAndRedirect(oneLinkProd);
   </script>
 </body>
 </html>
