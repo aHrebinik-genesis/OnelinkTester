@@ -9,44 +9,62 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      padding: 20px;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
     }
-    input {
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
       width: 90%;
-      max-width: 500px;
+      max-width: 600px;
+    }
+
+    input {
+      flex: 1;
       padding: 12px;
       font-size: 16px;
-      margin-bottom: 20px;
       border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     button {
-      font-size: 18px;
-      padding: 14px 24px;
-      margin: 10px;
+      font-size: 16px;
+      padding: 12px 20px;
       border: none;
       border-radius: 8px;
       color: white;
       cursor: pointer;
     }
+
     .copy { background-color: #6c757d; }
     .dev { background-color: #28a745; }
     .prod { background-color: #007bff; }
-    .clear { background-color: #dc3545; }
-    #status { margin-top: 20px; font-weight: bold; }
+    .clear-clipboard { background-color: #dc3545; }
+    .clear-input { background-color: #ffc107; color: black; }
+
+    #status {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <h1>🚀 JWT Copy & Redirect</h1>
   <p>Paste or enter your JWT token:</p>
-  <input id="jwt-input" type="text" placeholder="Paste your JWT here" />
+
+  <div class="input-row">
+    <input id="jwt-input" type="text" placeholder="Paste your JWT here" />
+    <button class="clear-input" id="btn-clear-input">Clear</button>
+  </div>
 
   <button class="copy" id="btn-copy">Copy JWT</button>
   <button class="dev" id="btn-dev">Dev OneLink</button>
   <button class="prod" id="btn-prod">Prod OneLink</button>
-  <button class="clear" id="btn-clear">Clear Clipboard</button>
+  <button class="clear-clipboard" id="btn-clear-clipboard">Clear Clipboard</button>
 
   <div id="status"></div>
 
@@ -63,6 +81,7 @@
         status.textContent = "❗ Please enter JWT before copying";
         return;
       }
+
       try {
         await navigator.clipboard.writeText(jwt);
         status.textContent = "✅ JWT copied to clipboard";
@@ -78,6 +97,7 @@
         status.textContent = "❗ Please enter JWT before redirecting";
         return;
       }
+
       try {
         await navigator.clipboard.writeText(jwt);
         status.textContent = "✅ JWT copied, redirecting...";
@@ -98,10 +118,16 @@
       }
     }
 
-    document.getElementById("btn-copy").onclick = () => copyJwtOnly();
+    function clearInput() {
+      jwtInput.value = '';
+      status.textContent = "✏️ Input cleared";
+    }
+
+    document.getElementById("btn-copy").onclick = copyJwtOnly;
     document.getElementById("btn-dev").onclick = () => copyJwtAndRedirect(oneLinkDev);
     document.getElementById("btn-prod").onclick = () => copyJwtAndRedirect(oneLinkProd);
-    document.getElementById("btn-clear").onclick = () => clearClipboard();
+    document.getElementById("btn-clear-clipboard").onclick = clearClipboard;
+    document.getElementById("btn-clear-input").onclick = clearInput;
   </script>
 </body>
 </html>
