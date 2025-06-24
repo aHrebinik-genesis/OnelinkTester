@@ -80,8 +80,9 @@
   <div id="status"></div>
 
   <script>
-    const oneLinkDev = "https://epica-beauty-dev.onelink.me/ZdId/wbih7cek";
-    const oneLinkProd = "https://epica-beauty.onelink.me/ScfO/8vkz4ouc";
+    const oneLinkDev_short = "https://epica-beauty-dev.onelink.me/ZdId/wbih7cek";
+    const oneLinkDev = "https://epica-beauty-dev.onelink.me/ZdId?af_ios_url=https%3A%2F%2Ftestflight.apple.com%2Fjoin%2FekcQ28HQ&af_xp=social&pid=onelinkmeta&c=EpicaDev_Pre-landing_Meta&af_dp=apicabeautyapp-dev%3A%2F%2F&deep_link_value=direct_asquizition&af_ad=test_af_ad&af_adset=test_af_adset&af_channel=test_af_channel&fbc=test_fbc&fbp=test_fbp"
+    const oneLinkProd_short = "https://epica-beauty.onelink.me/ScfO/8vkz4ouc";
 
     const status = document.getElementById("status");
     const jwtInput = document.getElementById("jwt-input");
@@ -136,7 +137,7 @@
 
     document.getElementById("btn-copy").onclick = copyJwtOnly;
     document.getElementById("btn-dev").onclick = () => copyJwtAndRedirect(oneLinkDev);
-    document.getElementById("btn-prod").onclick = () => copyJwtAndRedirect(oneLinkProd);
+    document.getElementById("btn-prod").onclick = () => copyJwtAndRedirect(oneLinkProd_short);
     document.getElementById("btn-clear-clipboard").onclick = clearClipboard;
     document.getElementById("btn-clear-input").onclick = clearInput;
   </script>
